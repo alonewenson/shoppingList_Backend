@@ -10,7 +10,6 @@ const getImgGallery = async (imgName) =>{
   const pixabayRes = await axios.get(url);
   let result = []
 
-  // TODO fix these if checks to is no undefined
   if(pixabayRes.data &&
     pixabayRes.data.hits)
   {
@@ -25,7 +24,7 @@ const getImg = async (imgName) =>{
   let result = PIXABAY_QUESTION_MARK_IMG;
 
   if(pixabayRes.length > 0 &&
-    pixabayRes[0]) // TODO fix these if checks to is no undefined
+    pixabayRes[0])
   {
     result = pixabayRes[0];
   }
