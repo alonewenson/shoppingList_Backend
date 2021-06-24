@@ -1,5 +1,5 @@
 const express = require('express')
-const getImgRoutes = require('./routes/getImgRoutes');
+const imgRoutes = require('./routes/imgRoutes');
 const { init } = require('./db/imgsDB')
 const app = express()
 const port = 3000
@@ -20,7 +20,7 @@ init().then(() => {
     res.send('Hello World!')
   })
   
-  app.use('/getImg' , getImgRoutes);
+  app.use('/getImg' , imgRoutes);
   
   
   app.listen(port, () => {

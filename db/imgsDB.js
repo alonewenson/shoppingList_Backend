@@ -1,7 +1,6 @@
 const { MongoClient } = require('mongodb')
 
 //this param should not be here since it includes username and password, in a real world app this would be hidden in some config file
-//const connectionString = 'mongodb+srv://ae_homez:b6BLD2ediw5EaEJ@cluster0.mru8n.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const connectionString = 'mongodb+srv://alonewenson:xnfGF8mDz6BbTNr@cluster0.kfulp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 const dbName = 'images'

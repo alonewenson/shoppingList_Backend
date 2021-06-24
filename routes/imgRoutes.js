@@ -8,7 +8,7 @@ router.get('/getImgByName/:imgName', async (req, res) => {
   res.send(result);
 })
 
-router.get('/setSelectedImg/:imgName/:imgUrl', async (req, res) => {
+router.post('/setSelectedImg/:imgName/:imgUrl', async (req, res) => {
   imgController.setSelectedImg(req.params.imgName, req.params.imgUrl);
   res.send('selected image')
 })
