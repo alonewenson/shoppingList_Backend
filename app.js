@@ -1,5 +1,6 @@
 const express = require('express')
 const imgRoutes = require('./routes/imgRoutes');
+const listRoutes = require('./routes/listRoutes');
 const { init } = require('./db/imgsDB')
 const app = express()
 const port = 3000
@@ -20,8 +21,9 @@ init().then(() => {
     res.send('Hello World!')
   })
   
-  app.use('/getImg' , imgRoutes);
+  app.use('/images' , imgRoutes);
   
+  app.use('/shoppingLists' , listRoutes);
   
   app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`)

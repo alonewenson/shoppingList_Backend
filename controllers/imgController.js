@@ -5,7 +5,7 @@ const { insertDefaultImg,
         getSelectedImgByName, 
         getAllSelectedImgs,
         updateSelectedImg} = require('../db/imgsDB')
-const pixabayImgController = require('./pixabayImgController');
+const pixabayImgController = require('../services/pixabayServices');
 
 
 const getBestImg = (imgName, imgUrls) => {

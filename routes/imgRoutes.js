@@ -3,7 +3,7 @@ const imgController = require('../controllers/imgController');
 
 const router = express.Router()
 
-router.get('/getImgByName/:imgName', async (req, res) => {
+router.get('/getImg/:imgName', async (req, res) => {
   const result = await imgController.getImg(req.params.imgName);
   res.send(result);
 })

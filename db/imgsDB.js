@@ -2,10 +2,10 @@ const { MongoClient } = require('mongodb')
 
 //this param should not be here since it includes username and password, in a real world app this would be hidden in some config file
 const connectionString = 'mongodb+srv://alonewenson:xnfGF8mDz6BbTNr@cluster0.kfulp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
-
 const dbName = 'images'
 const defaultImgsCollectionName = 'defualt_imgs'
 const selectedImgsCollectionName = 'selected_imgs'
+const shoppingListCollectionName = 'shopping_lists'
 
 let db
 
@@ -64,6 +64,20 @@ const getAllSelectedImgs = () => {
 }
 
 
+const getShoppingtList = ( listId ) => {
+  const collection = db.collection(shoppingListCollectionName)
+  return collection.findOne({ '_id': listId })
+}
+
+const upserShoppingtList = ( listId, listJson, timesTamp ) => {
+  const collection = db.collection(shoppingListCollectionName)
+  return collection.updateOne({ '_id': listId },
+    { $set: {'listId' :listId, 'list': listJson, 'last_edit': timesTamp},
+      $setOnInsert: { 'created_at': timesTamp }}, 
+    { upsert: true })
+}
+
+
 module.exports = { 
   init,
   insertDefaultImg, 
@@ -72,5 +86,7 @@ module.exports = {
   insertSelectedImg,
   getSelectedImgByName,
   updateSelectedImg,
-  getAllSelectedImgs
+  getAllSelectedImgs,
+  upserShoppingtList,
+  getShoppingtList
 }
