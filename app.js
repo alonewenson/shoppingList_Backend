@@ -1,12 +1,14 @@
 const express = require('express')
+const https = require('https');
+const fs = require('fs');
 const imgRoutes = require('./routes/imgRoutes');
 const listRoutes = require('./routes/listRoutes');
-const { init } = require('./db/imgsDB')
+const DB = require('./db/imgsDB')
 const app = express()
 const port = 3000
 
 
-init().then(() => {
+DB.init().then(() => {
 
   app.use(function(req, res, next) {
     //TODO not sure we need al these headears
@@ -25,8 +27,13 @@ init().then(() => {
   
   app.use('/shoppingLists' , listRoutes);
   
-  app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`)
+  https.createServer({
+    key: fs.readFileSync('key.pem'),
+    cert: fs.readFileSync('cert.pem')
+  }, app)
+  .listen(port, function () {
+    console.log(`Example app listening at https://localhost:${port}`)
   })
+
 })
 .catch( err => console.log(err))

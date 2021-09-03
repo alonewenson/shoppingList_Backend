@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb')
 const connectionString = 'mongodb+srv://alonewenson:xnfGF8mDz6BbTNr@cluster0.kfulp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const dbName = 'images'
 const defaultImgsCollectionName = 'defualt_imgs'
-const selectedImgsCollectionName = 'selected_imgs'
+const ImgsGaleriesCollectionName = 'imgs_galeries'
 const shoppingListCollectionName = 'shopping_lists'
 
 let db
@@ -17,7 +17,8 @@ const init = () =>
   })
 
 
-//defualt images
+//---------------- default img
+
 const insertDefaultImg = async (img) => {
   const collection = db.collection(defaultImgsCollectionName)
      
@@ -32,37 +33,24 @@ const getDefaultImgByName = (imgName) => {
   return collection.findOne({ 'name': imgName })
 }
 
-const getAllDefaultImgsFromDB = () => {
-  const collection = db.collection(defaultImgsCollectionName)
-  return collection.find().toArray()  
-}
+//---------------- img gallery
 
-
-//non default images
-const insertSelectedImg = async (img) => {
-  const collection = db.collection(selectedImgsCollectionName)
+const setImgGallery = async ( imgName,imgGallery) => {
+  setTimeout(() => {console.log('setting gallery'), 1000});
+  const collection = db.collection(ImgsGaleriesCollectionName)
      
-  const result = await collection.createIndexes({ name: 1 }, { unique: true });
-  console.log(`unique index created: ${result}`);
+  // const result = await collection.createIndexes({ name: 1 }, { unique: true });
+  // console.log(`unique index created: ${result}`);
 
-  return collection.insertOne(img)
+  return collection.insertOne({ name: imgName, gallery: imgGallery});
 }
 
-const updateSelectedImg = async (imgName , selection) => {
-  const collection = db.collection(selectedImgsCollectionName)
-  return collection.updateOne({ 'name': imgName } , {$set: {'selection' :selection}})
-}
-
-const getSelectedImgByName = (imgName) => {
-  const collection = db.collection(selectedImgsCollectionName)
+const getImgGallery = (imgName) => {
+  const collection = db.collection(ImgsGaleriesCollectionName)
   return collection.findOne({ 'name': imgName })
 }
 
-const getAllSelectedImgs = () => {
-  const collection = db.collection(selectedImgsCollectionName)
-  return collection.find().toArray()  
-}
-
+//---------------- shopping list
 
 const getShoppingtList = ( listId ) => {
   const collection = db.collection(shoppingListCollectionName)
@@ -80,13 +68,13 @@ const upserShoppingtList = ( listId, listJson, timesTamp ) => {
 
 module.exports = { 
   init,
+  
   insertDefaultImg, 
-  getDefaultImgByName, 
-  getAllDefaultImgsFromDB,
-  insertSelectedImg,
-  getSelectedImgByName,
-  updateSelectedImg,
-  getAllSelectedImgs,
+  getDefaultImgByName,
+  
+  setImgGallery,
+  getImgGallery,
+
   upserShoppingtList,
   getShoppingtList
 }

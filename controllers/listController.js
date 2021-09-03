@@ -1,10 +1,10 @@
-const { upserShoppingtList ,getShoppingtList } = require('../db/imgsDB')
+const DB = require('../db/imgsDB')
 
 
 const getList = async (listId, shoppingList) => {
   //TODO user id will be added after adding login code
 
-  getShoppingtList(listId, shoppingList)
+  DB.getShoppingtList(listId, shoppingList)
 }
 
 
@@ -12,5 +12,5 @@ const getList = async (listId, shoppingList) => {
 const setShoppingList = async (listId, shoppingList) => {
   //TODO user id will be added after adding login code
 
-  upserShoppingtList(listId, shoppingList)
+  DB.upserShoppingtList(listId, shoppingList)
 }
