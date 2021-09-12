@@ -10,7 +10,6 @@ const getBestImgs = (imgName, imgUrls) => {
 }
 
 const getImgGallery = async (imgName) => {
-  
   const singularImgName = pluralize.singular(imgName);
   var imgUrls = await DB.getImgGallery(singularImgName);
   if(imgUrls){
@@ -18,11 +17,25 @@ const getImgGallery = async (imgName) => {
   }
 
   rawImgUrls = await pixabayServices.getImgGalleryFromPixabay(singularImgName);
-  if(rawImgUrls.lenght !== 0) {
+  if(rawImgUrls && rawImgUrls.length !== 0) {
     imgUrls = getBestImgs(singularImgName, rawImgUrls);
     DB.setImgGallery(singularImgName, imgUrls);
     return imgUrls;  
   }
 }
 
-module.exports = { getImgGallery };
+const getImg = async (imgName) => {
+  const singularImgName = pluralize.singular(imgName);
+  const img = await DB.getDefaultImg(singularImgName);
+  if(img){
+    return img.url;
+  }
+
+  const imgGallery = await getImgGallery(imgName)
+  if(imgGallery && imgGallery.length !== 0) {
+    DB.setDefaultImg(singularImgName, imgGallery[0]);
+    return imgGallery[0];  
+  }
+}
+
+module.exports = { getImg, getImgGallery };

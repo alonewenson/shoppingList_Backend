@@ -14,34 +14,34 @@ const init = () =>
     console.log('mongodb connected')
    
     db = client.db(dbName)
+
+    //TODO when is the correct time to create index?
+    const defaultImgsCollection = db.collection(defaultImgsCollectionName)
+    const resultA = await defaultImgsCollection.createIndexes({ name: 1 }, { unique: true });
+    console.log(`${defaultImgsCollectionName} unique index created: ${resultA}`);
+
+    const ImgsGaleriesCollection = db.collection(ImgsGaleriesCollectionName)
+    const resultB = await ImgsGaleriesCollection.createIndexes({ name: 1 }, { unique: true });
+    console.log(`${ImgsGaleriesCollectionName} unique index created: ${resultB}`);
   })
 
 
 //---------------- default img
 
-const insertDefaultImg = async (img) => {
+const setDefaultImg = async ( imgName, imgUrl ) => {
   const collection = db.collection(defaultImgsCollectionName)
-     
-  const result = await collection.createIndexes({ name: 1 }, { unique: true });
-  console.log(`unique index created: ${result}`);
-
-  return collection.insertOne(img)
+  return collection.insertOne({ name: imgName, url: imgUrl})
 }
 
-const getDefaultImgByName = (imgName) => {
+const getDefaultImg = (imgName) => {
   const collection = db.collection(defaultImgsCollectionName)
   return collection.findOne({ 'name': imgName })
 }
 
 //---------------- img gallery
 
-const setImgGallery = async ( imgName,imgGallery) => {
-  setTimeout(() => {console.log('setting gallery'), 1000});
+const setImgGallery = async ( imgName, imgGallery ) => {
   const collection = db.collection(ImgsGaleriesCollectionName)
-     
-  // const result = await collection.createIndexes({ name: 1 }, { unique: true });
-  // console.log(`unique index created: ${result}`);
-
   return collection.insertOne({ name: imgName, gallery: imgGallery});
 }
 
@@ -69,8 +69,8 @@ const upserShoppingtList = ( listId, listJson, timesTamp ) => {
 module.exports = { 
   init,
   
-  insertDefaultImg, 
-  getDefaultImgByName,
+  setDefaultImg, 
+  getDefaultImg,
   
   setImgGallery,
   getImgGallery,

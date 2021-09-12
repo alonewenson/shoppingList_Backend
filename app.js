@@ -5,8 +5,9 @@ const imgRoutes = require('./routes/imgRoutes');
 const listRoutes = require('./routes/listRoutes');
 const DB = require('./db/imgsDB')
 const app = express()
-const port = 3000
 
+const port = 3000
+const hostname = "192.168.1.10";
 
 DB.init().then(() => {
 
@@ -27,13 +28,16 @@ DB.init().then(() => {
   
   app.use('/shoppingLists' , listRoutes);
   
-  https.createServer({
-    key: fs.readFileSync('key.pem'),
-    cert: fs.readFileSync('cert.pem')
-  }, app)
-  .listen(port, function () {
-    console.log(`Example app listening at https://localhost:${port}`)
-  })
+  app.listen(port, function () {
+      console.log(`Example app listening at http://${hostname}:${port}`)
+    });
+  // https.createServer({
+  //   key: fs.readFileSync('key.pem'),
+  //   cert: fs.readFileSync('cert.pem')
+  // }, app)
+  // .listen(port, hostname , function () {
+  //   console.log(`Example app listening at https://${hostname}:${port}`)
+  // })
 
 })
 .catch( err => console.log(err))
