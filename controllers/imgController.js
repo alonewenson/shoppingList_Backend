@@ -10,7 +10,7 @@ const getBestImgs = (imgName, imgUrls) => {
 }
 
 const getImgGallery = async (imgName) => {
-  const singularImgName = pluralize.singular(imgName);
+  const singularImgName = pluralize.singular(imgName.toLowerCase());
   var imgUrls = await DB.getImgGallery(singularImgName);
   if(imgUrls){
     return imgUrls.gallery;
@@ -25,7 +25,7 @@ const getImgGallery = async (imgName) => {
 }
 
 const getImg = async (imgName) => {
-  const singularImgName = pluralize.singular(imgName);
+  const singularImgName = pluralize.singular(imgName.toLowerCase());
   const img = await DB.getDefaultImg(singularImgName);
   if(img){
     return img.url;
