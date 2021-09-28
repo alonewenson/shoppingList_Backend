@@ -4,7 +4,7 @@ const { MongoClient } = require('mongodb')
 const connectionString = 'mongodb+srv://alonewenson:xnfGF8mDz6BbTNr@cluster0.kfulp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 const dbName = 'images'
 const defaultImgsCollectionName = 'defualt_imgs'
-const ImgsGaleriesCollectionName = 'imgs_galeries'
+const ImgsGaleriesCollectionName = 'img_galeries'
 const shoppingListCollectionName = 'shopping_lists'
 
 let db

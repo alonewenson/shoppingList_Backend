@@ -1,6 +1,5 @@
 const DB = require('../db/imgsDB')
 const pixabayServices = require('../services/pixabayServices');
-const pluralize = require('pluralize')
 
 const getBestImgs = (imgName, imgUrls) => {
   return imgUrls.filter(imgUrl => {
@@ -10,30 +9,28 @@ const getBestImgs = (imgName, imgUrls) => {
 }
 
 const getImgGallery = async (imgName) => {
-  const singularImgName = pluralize.singular(imgName.toLowerCase());
-  var imgUrls = await DB.getImgGallery(singularImgName);
+  var imgUrls = await DB.getImgGallery(imgName);
   if(imgUrls){
     return imgUrls.gallery;
   }
 
-  rawImgUrls = await pixabayServices.getImgGalleryFromPixabay(singularImgName);
+  rawImgUrls = await pixabayServices.getImgGalleryFromPixabay(imgName);
   if(rawImgUrls && rawImgUrls.length !== 0) {
-    imgUrls = getBestImgs(singularImgName, rawImgUrls);
-    DB.setImgGallery(singularImgName, imgUrls);
+    imgUrls = getBestImgs(imgName, rawImgUrls).slice(0,18);
+    DB.setImgGallery(imgName, imgUrls);
     return imgUrls;  
   }
 }
 
 const getImg = async (imgName) => {
-  const singularImgName = pluralize.singular(imgName.toLowerCase());
-  const img = await DB.getDefaultImg(singularImgName);
+  const img = await DB.getDefaultImg(imgName);
   if(img){
     return img.url;
   }
 
   const imgGallery = await getImgGallery(imgName)
   if(imgGallery && imgGallery.length !== 0) {
-    DB.setDefaultImg(singularImgName, imgGallery[0]);
+    DB.setDefaultImg(imgName, imgGallery[0]);
     return imgGallery[0];  
   }
 }
